@@ -1,42 +1,518 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Finavest Pte. Ltd.</title>
-<meta name="description" content="Finavest Pte. Ltd. — commodity trading, Singapore.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finavest | Global Commodity Trading</title>
+<meta name="description" content="Finavest Pte. Ltd. is a Singapore-headquartered commodity trading company focused on non-ferrous metals, with an office in Shanghai.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231557c0'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-size='40' font-weight='700' fill='%23fff'%3EF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --ink:#14233a; --muted:#5b6b80; --line:#d9e0e8; --bg:#f7f9fb; --accent:#1f5f8b; }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  html, body { height:100%; }
-  body {
-    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    color:var(--ink); background:var(--bg);
-    display:flex; align-items:center; justify-content:center;
-    padding:24px 16px;
+  :root{
+    --navy:#0a1f3c; --navy-2:#0f2b52; --blue:#1557c0; --blue-2:#2f7bf0;
+    --ink:#1b2430; --muted:#5b6675; --line:#e3e8ef; --bg-soft:#f4f7fb; --white:#fff;
+    --max:1180px;
   }
-  main { max-width:560px; width:100%; text-align:center; }
-  .mark { width:56px; height:56px; margin:0 auto 28px; border-radius:12px;
-          background:var(--accent); color:#fff; font:700 28px/56px Georgia, serif; }
-  h1 { font-size:34px; font-weight:600; letter-spacing:.5px; }
-  .tag { margin-top:10px; color:var(--muted); font-size:16px; letter-spacing:2px; text-transform:uppercase; }
-  hr { border:0; border-top:1px solid var(--line); margin:32px auto; width:80px; }
-  p { color:var(--muted); font-size:16px; line-height:1.6; }
-  a { color:var(--accent); text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  footer { margin-top:48px; font-size:13px; color:var(--muted); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter','Noto Sans SC',-apple-system,'Segoe UI','Microsoft YaHei',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--white);line-height:1.65;-webkit-font-smoothing:antialiased}
+  html[data-lang="zh"] body{font-family:'Noto Sans SC','Inter','PingFang SC','Microsoft YaHei',sans-serif;line-height:1.8}
+
+  /* Language switching */
+  html[data-lang="en"] .zh{display:none!important}
+  html[data-lang="zh"] .en{display:none!important}
+
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:16px}
+  html[data-lang="zh"] .eyebrow{letter-spacing:.12em;font-size:13px}
+  h1,h2,h3{font-weight:600;letter-spacing:-.01em;line-height:1.25}
+  h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:20px;color:var(--navy)}
+  h3{font-size:20px;color:var(--navy);margin-bottom:10px}
+  p{color:var(--muted)}
+  section{padding:110px 0}
+
+  /* Header */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,box-shadow .3s}
+  header.scrolled{background:rgba(255,255,255,.97);box-shadow:0 1px 0 var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:78px;gap:24px}
+  .logo{font-family:'Inter',sans-serif;font-size:26px;font-weight:700;letter-spacing:.02em;color:var(--blue-2)}
+  header.scrolled .logo{color:var(--blue)}
+  .nav-right{display:flex;align-items:center;gap:32px}
+  .menu{display:flex;gap:32px;font-size:14px;font-weight:500}
+  .menu a{color:rgba(255,255,255,.88);transition:color .2s}
+  header.scrolled .menu a{color:var(--ink)}
+  .menu a:hover{color:var(--blue-2)}
+  .lang{display:flex;border:1px solid rgba(255,255,255,.35);font-size:12px;font-weight:600}
+  header.scrolled .lang{border-color:var(--line)}
+  .lang button{background:none;border:0;cursor:pointer;padding:6px 11px;color:rgba(255,255,255,.75);font:inherit}
+  header.scrolled .lang button{color:var(--muted)}
+  .lang button.on{background:var(--blue-2);color:#fff!important}
+  .burger{display:none;background:none;border:0;cursor:pointer;width:28px;height:20px;position:relative}
+  .burger span{position:absolute;left:0;right:0;height:2px;background:#fff;transition:.3s}
+  header.scrolled .burger span{background:var(--ink)}
+  .burger span:nth-child(1){top:0}.burger span:nth-child(2){top:9px}.burger span:nth-child(3){top:18px}
+
+  /* Hero */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;color:#fff;overflow:hidden;
+    background:radial-gradient(1200px 600px at 80% 20%,rgba(47,123,240,.28),transparent 60%),linear-gradient(160deg,#071629 0%,var(--navy) 45%,var(--navy-2) 100%);padding:0}
+  .hero svg.map{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:min(900px,85vw);opacity:.55;pointer-events:none}
+  .hero .wrap{position:relative;z-index:2}
+  .hero h1{font-size:clamp(36px,5.4vw,66px);font-weight:600;max-width:820px;margin-bottom:28px}
+  .hero h1 em{font-style:normal;color:var(--blue-2)}
+  .hero p{color:rgba(255,255,255,.78);font-size:clamp(16px,1.5vw,19px);max-width:620px;margin-bottom:44px}
+  .btn{display:inline-block;padding:15px 30px;font-size:14px;font-weight:600;letter-spacing:.04em;border:1px solid var(--blue-2);background:var(--blue-2);color:#fff;transition:.25s}
+  .btn:hover{background:transparent}
+  .hero .btn:hover{color:#fff}
+  .contact .btn:hover{color:var(--blue-2)}
+  .btn.ghost{background:transparent;border-color:rgba(255,255,255,.4);margin-left:12px}
+  .btn.ghost:hover{border-color:#fff}
+  .scroll-cue{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.5);text-transform:uppercase}
+
+  /* Key facts */
+  .facts{background:var(--navy);color:#fff;padding:0}
+  .facts .grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.08)}
+  .fact{padding:40px 28px;border-right:1px solid rgba(255,255,255,.08)}
+  .fact:last-child{border-right:0}
+  .fact b{display:block;font-size:30px;font-weight:600;color:#fff;margin-bottom:4px}
+  .fact span{font-size:13px;color:rgba(255,255,255,.6);letter-spacing:.02em}
+
+  /* About */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+  .lead{font-size:20px;color:var(--ink);line-height:1.6;margin-bottom:22px}
+  .about p+p{margin-top:18px}
+
+  /* Business */
+  .soft{background:var(--bg-soft)}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:56px}
+  .card{background:#fff;padding:40px 34px;border-top:3px solid var(--blue);transition:transform .25s,box-shadow .25s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(10,31,60,.08)}
+  .card .num{font-size:13px;color:var(--blue);font-weight:600;letter-spacing:.1em;margin-bottom:22px}
+  .card ul{list-style:none;margin-top:18px}
+  .card li{font-size:14px;color:var(--muted);padding:8px 0;border-top:1px solid var(--line)}
+
+  /* Commodities */
+  .comm{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:56px;background:var(--line);border:1px solid var(--line)}
+  .com{background:#fff;padding:36px 28px;min-height:250px;display:flex;flex-direction:column}
+  .com .ic{width:44px;height:44px;margin-bottom:26px;color:var(--blue)}
+  .com p{font-size:14px}
+  .com .tag{margin-top:auto;padding-top:18px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);font-weight:600}
+  .note{margin-top:28px;font-size:14px}
+
+  /* Approach */
+  .dark{background:linear-gradient(160deg,var(--navy) 0%,#0c2648 100%);color:#fff}
+  .dark h2{color:#fff}.dark p{color:rgba(255,255,255,.7)}
+  .dark .eyebrow{color:var(--blue-2)}
+  .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;margin-top:60px}
+  .pillar{border-top:1px solid rgba(255,255,255,.2);padding-top:26px}
+  .pillar h3{color:#fff;font-size:18px}
+  .pillar p{font-size:14px}
+
+  /* Team */
+  .team-box{display:grid;grid-template-columns:5fr 7fr;gap:80px;align-items:start}
+  .creds{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:10px}
+  .cred{background:#fff;padding:26px 24px}
+  .cred b{display:block;color:var(--navy);font-size:24px;font-weight:600}
+  .cred span{font-size:13px;color:var(--muted)}
+  .team-box .lead{font-size:19px}
+  .team-box p+p{margin-top:16px}
+
+  /* Partners */
+  .pstate{max-width:900px;background:#fff;border-left:3px solid var(--blue);padding:48px 44px;margin-top:40px}
+  .pname{font-size:30px;font-weight:600;letter-spacing:.08em;color:var(--navy);font-family:"Inter",sans-serif}
+  .pstate p{font-size:17px;color:var(--ink);line-height:1.75}
+  @media (max-width:760px){.pstate{grid-template-columns:1fr;gap:20px;padding:32px 24px}.pname{font-size:24px}}
+  .fact b span,.cred b span{font-size:inherit;color:inherit;letter-spacing:inherit}
+
+  /* Locations */
+  .locs{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:56px}
+  .loc{position:relative;padding:48px 40px;background:var(--navy);color:#fff;overflow:hidden;min-height:240px}
+  .loc::after{content:"";position:absolute;right:-60px;bottom:-60px;width:220px;height:220px;border:1px solid rgba(47,123,240,.35);border-radius:50%}
+  .loc::before{content:"";position:absolute;right:-20px;bottom:-20px;width:140px;height:140px;border:1px solid rgba(47,123,240,.25);border-radius:50%}
+  .loc .role{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-2);font-weight:600}
+  .loc h3{color:#fff;font-size:32px;margin:14px 0 12px}
+  .loc p{color:rgba(255,255,255,.7);font-size:15px;max-width:380px}
+
+  /* Contact */
+  .contact{background:var(--bg-soft)}
+  .contact-box{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .mail{display:inline-block;font-size:clamp(20px,2.4vw,28px);font-weight:600;color:var(--blue);border-bottom:2px solid var(--blue);padding-bottom:4px;margin:10px 0 30px;word-break:break-all;font-family:'Inter',sans-serif}
+  .cinfo{background:#fff;padding:44px 40px;border-left:3px solid var(--blue)}
+  .cinfo dl{display:grid;grid-template-columns:120px 1fr;row-gap:18px;font-size:15px}
+  .cinfo dt{color:var(--muted)}
+  .cinfo dd{color:var(--ink);font-weight:500}
+
+  footer{background:#06142a;color:rgba(255,255,255,.55);padding:56px 0 40px;font-size:13px}
+  footer .top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.08)}
+  footer .logo{font-size:24px}
+  footer .fmenu{display:flex;gap:28px;flex-wrap:wrap}
+  footer .fmenu a:hover{color:#fff}
+  footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:26px}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:1060px){
+    .menu{gap:22px}
+  }
+  @media (max-width:960px){
+    section{padding:80px 0}
+    .menu{position:fixed;top:78px;left:0;right:0;background:#fff;flex-direction:column;gap:0;padding:8px 24px 20px;box-shadow:0 10px 30px rgba(0,0,0,.08);display:none}
+    .menu.open{display:flex}
+    .menu a{color:var(--ink)!important;padding:14px 0;border-bottom:1px solid var(--line)}
+    .burger{display:block}
+    .nav-right{gap:18px}
+    .two,.team-box,.contact-box{grid-template-columns:1fr;gap:40px}
+    .cards{grid-template-columns:1fr}
+    .comm{grid-template-columns:1fr 1fr}
+    .pillars{grid-template-columns:1fr 1fr}
+    .facts .grid{grid-template-columns:1fr 1fr}
+    .fact:nth-child(2){border-right:0}
+    .fact{border-bottom:1px solid rgba(255,255,255,.08)}
+    .locs{grid-template-columns:1fr}
+  }
+  @media (max-width:960px){
+    .hero{min-height:auto;padding:130px 0 90px}
+    .scroll-cue{display:none}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 16px}
+    .hero{padding:112px 0 64px}
+    .hero h1{font-size:32px;margin-bottom:20px}
+    .hero p{font-size:15px;margin-bottom:32px}
+    .hero svg.map{opacity:.3;right:-160px}
+    .fact{padding:28px 16px}
+    .fact b{font-size:24px}
+    .logo{font-size:22px}
+    .nav-right{gap:14px}
+    .lang button{padding:6px 9px}
+    .comm,.pillars{grid-template-columns:1fr}
+    .btn.ghost{margin:12px 0 0}
+    .cinfo{padding:32px 24px}
+    .cinfo dl{grid-template-columns:1fr;row-gap:4px}
+    .cinfo dd{margin-bottom:12px}
+    .creds{grid-template-columns:1fr}
+  }
 </style>
 </head>
 <body>
-<main>
-  <div class="mark">F</div>
-  <h1>Finavest Pte. Ltd.</h1>
-  <div class="tag">Commodity Trading &middot; Singapore</div>
-  <hr>
-  <p>Our new website is on its way.</p>
-  <p>For enquiries, please contact<br>
-     <a href="mailto:stanley_wang@finavest.sg">stanley_wang@finavest.sg</a></p>
-  <footer>&copy; 2026 Finavest Pte. Ltd. All rights reserved.</footer>
-</main>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#top" class="logo">Finavest</a>
+    <div class="nav-right">
+      <nav class="menu" id="menu">
+        <a href="#about"><span class="en">About Us</span><span class="zh">关于我们</span></a>
+        <a href="#business"><span class="en">What We Do</span><span class="zh">业务介绍</span></a>
+        <a href="#commodities"><span class="en">Commodities</span><span class="zh">经营品种</span></a>
+        <a href="#approach"><span class="en">Our Approach</span><span class="zh">经营理念</span></a>
+        <a href="#team"><span class="en">Our Team</span><span class="zh">创始团队</span></a>
+        <a href="#partners"><span class="en">Partners</span><span class="zh">合作伙伴</span></a>
+        <a href="#contact"><span class="en">Contact Us</span><span class="zh">联系我们</span></a>
+      </nav>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-set="en">EN</button>
+        <button type="button" data-set="zh">中文</button>
+      </div>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <svg class="map" viewBox="0 0 800 600" fill="none" aria-hidden="true">
+    <defs>
+      <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="#5f8fd8" opacity=".45"/></pattern>
+      <linearGradient id="arc" x1="0" x2="1"><stop offset="0" stop-color="#2f7bf0" stop-opacity="0"/><stop offset=".5" stop-color="#2f7bf0"/><stop offset="1" stop-color="#7fb0ff"/></linearGradient>
+    </defs>
+    <circle cx="420" cy="300" r="270" fill="url(#dots)"/>
+    <circle cx="420" cy="300" r="270" stroke="#2f7bf0" stroke-opacity=".25"/>
+    <ellipse cx="420" cy="300" rx="270" ry="95" stroke="#2f7bf0" stroke-opacity=".18"/>
+    <ellipse cx="420" cy="300" rx="110" ry="270" stroke="#2f7bf0" stroke-opacity=".18"/>
+    <ellipse cx="420" cy="300" rx="200" ry="270" stroke="#2f7bf0" stroke-opacity=".12"/>
+    <path d="M150 300h540" stroke="#2f7bf0" stroke-opacity=".18"/>
+    <path d="M250 440 C 320 260, 470 170, 560 210" stroke="url(#arc)" stroke-width="2"/>
+    <path d="M560 210 C 610 300, 560 400, 470 430" stroke="url(#arc)" stroke-width="1.5" stroke-dasharray="4 6"/>
+    <path d="M140 250 C 260 120, 440 110, 560 210" stroke="url(#arc)" stroke-width="1.2" opacity=".7"/>
+    <circle cx="470" cy="430" r="6" fill="#2f7bf0"/><circle cx="470" cy="430" r="16" stroke="#2f7bf0" stroke-opacity=".5"/>
+    <circle cx="560" cy="210" r="6" fill="#7fb0ff"/><circle cx="560" cy="210" r="16" stroke="#7fb0ff" stroke-opacity=".5"/>
+    <text x="490" y="455" fill="#9fc2ff" font-family="Inter,Arial" font-size="13" letter-spacing="2">SINGAPORE</text>
+    <text x="580" y="205" fill="#9fc2ff" font-family="Inter,Arial" font-size="13" letter-spacing="2">SHANGHAI</text>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow" style="color:#7fb0ff"><span class="en">Singapore &middot; Shanghai</span><span class="zh">新加坡 &middot; 上海</span></div>
+    <h1>
+      <span class="en">Connecting global supply with <em>Asian demand</em> for essential commodities.</span>
+      <span class="zh">连接全球资源，<br>服务<em>亚洲市场</em>。</span>
+    </h1>
+    <p>
+      <span class="en">Finavest is a Singapore-headquartered commodity trading company specialising in non-ferrous metals, delivering reliable supply to customers across Asia.</span>
+      <span class="zh">Finavest 是一家总部位于新加坡的大宗商品贸易公司，专注于有色金属领域，致力于为亚洲客户提供稳定可靠的商品供应。</span>
+    </p>
+    <a href="#business" class="btn"><span class="en">What We Do</span><span class="zh">了解业务</span></a>
+    <a href="#contact" class="btn ghost"><span class="en">Contact Us</span><span class="zh">联系我们</span></a>
+  </div>
+  <div class="scroll-cue"><span class="en">Scroll</span><span class="zh">向下浏览</span></div>
+</section>
+
+<!-- FACTS -->
+<section class="facts">
+  <div class="wrap grid">
+    <div class="fact"><b>2024</b><span class="en">Founded in Singapore</span><span class="zh">成立于新加坡</span></div>
+    <div class="fact"><b>2</b><span class="en">Offices &mdash; Singapore &amp; Shanghai</span><span class="zh">办公地点 &mdash; 新加坡、上海</span></div>
+    <div class="fact"><b><span class="en">25+ yrs</span><span class="zh">25年+</span></b><span class="en">Combined industry experience at Cargill</span><span class="zh">创始团队嘉吉行业经验</span></div>
+    <div class="fact"><b>100%</b><span class="en">Back-to-back trade flows</span><span class="zh">以销定购</span></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about">
+  <div class="wrap two">
+    <div class="reveal">
+      <div class="eyebrow"><span class="en">About Us</span><span class="zh">关于我们</span></div>
+      <h2><span class="en">A focused commodity trading house.</span><span class="zh">专注、专业的大宗商品贸易商</span></h2>
+    </div>
+    <div class="reveal">
+      <p class="lead">
+        <span class="en">Finavest Pte. Ltd. is a Singapore-based enterprise engaged in global commodity trading, established in March 2024.</span>
+        <span class="zh">FINAVEST PTE. LTD. 是一家专业从事全球大宗商品贸易的新加坡企业，成立于2024年3月。</span>
+      </p>
+      <p>
+        <span class="en">Headquartered in Singapore with an office in Shanghai, China, we have built a trading network covering Asia's major markets. We source and deliver physical commodities &mdash; principally copper and other non-ferrous metals &mdash; connecting producers and international trading houses with industrial consumers and distributors across the region.</span>
+        <span class="zh">公司总部设在新加坡，并在中国上海设立办事处，形成覆盖亚洲主要市场的贸易网络。我们以铜及其他有色金属为核心，从事实物大宗商品的采购与分销，连接全球生产商、国际贸易商与亚洲地区的工业用户和分销商。</span>
+      </p>
+      <p>
+        <span class="en">Through our trade channels across Singapore, mainland China and Hong Kong, we have established a stable supply base and sales network. Alongside trading, we provide advisory services that help partners optimise trade processes and manage risk.</span>
+        <span class="zh">凭借在新加坡、中国内地及香港的贸易渠道，公司建立了稳定的货源体系和销售网络。同时，我们为合作伙伴提供贸易流程优化、风险管理等咨询服务，帮助客户提升运营效率。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS -->
+<section id="business" class="soft">
+  <div class="wrap">
+    <div class="reveal" style="max-width:720px">
+      <div class="eyebrow"><span class="en">What We Do</span><span class="zh">业务介绍</span></div>
+      <h2><span class="en">Moving commodities from where they are produced to where they are needed.</span><span class="zh">将商品从产地高效送达需求市场</span></h2>
+      <p><span class="en">We manage the full trade cycle &mdash; from sourcing and contracting to logistics and delivery &mdash; to provide reliable, efficient supply chains for our counterparties.</span><span class="zh">我们管理从采购、签约到物流交付的完整贸易链条，为合作伙伴提供高效、可靠的供应链服务。</span></p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3><span class="en">Commodity Trading</span><span class="zh">大宗商品贸易</span></h3>
+        <p><span class="en">Global procurement and distribution of non-ferrous metals and other core commodities.</span><span class="zh">有色金属及其他核心商品的全球采购与分销。</span></p>
+        <ul>
+          <li><span class="en">Sourcing from global producers and trading houses</span><span class="zh">对接全球生产商与国际贸易商</span></li>
+          <li><span class="en">Distribution to Asian industrial buyers</span><span class="zh">服务亚洲工业用户与分销商</span></li>
+          <li><span class="en">Spot and term supply arrangements</span><span class="zh">现货与长期供应安排</span></li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3><span class="en">Supply Chain Management</span><span class="zh">供应链管理</span></h3>
+        <p><span class="en">End-to-end execution that ensures every cargo is delivered on time and to specification.</span><span class="zh">全流程执行管理，确保每批货物按时、按质交付。</span></p>
+        <ul>
+          <li><span class="en">Logistics, shipping and warehousing coordination</span><span class="zh">物流、船运及仓储协调</span></li>
+          <li><span class="en">Quality and quantity inspection</span><span class="zh">质量与数量检验</span></li>
+          <li><span class="en">Trade documentation management</span><span class="zh">贸易单据管理</span></li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3><span class="en">Advisory &amp; Consulting</span><span class="zh">企业管理咨询</span></h3>
+        <p><span class="en">Management consulting services that help partners operate commodity businesses more efficiently.</span><span class="zh">为合作伙伴提供管理咨询服务，提升大宗商品业务运营效率。</span></p>
+        <ul>
+          <li><span class="en">Trade process optimisation</span><span class="zh">贸易流程优化</span></li>
+          <li><span class="en">Price and operational risk management</span><span class="zh">价格及运营风险管理</span></li>
+          <li><span class="en">Market insight and analysis</span><span class="zh">市场研判与分析</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMODITIES -->
+<section id="commodities">
+  <div class="wrap">
+    <div class="reveal" style="max-width:720px">
+      <div class="eyebrow"><span class="en">Commodities</span><span class="zh">经营品种</span></div>
+      <h2><span class="en">Our core markets.</span><span class="zh">核心经营品种</span></h2>
+      <p><span class="en">Copper is at the heart of our business, complemented by other base metals and selected agricultural commodities.</span><span class="zh">铜是我们的核心业务，同时经营其他基本金属及部分农产品。</span></p>
+    </div>
+    <div class="comm">
+      <div class="com reveal">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="16" width="36" height="8"/><rect x="10" y="24" width="28" height="8"/><rect x="6" y="32" width="36" height="8"/></svg>
+        <h3><span class="en">Copper Cathode</span><span class="zh">电解铜</span></h3>
+        <p><span class="en">LME-grade refined copper cathodes sourced from global producers and supplied to Asian fabricators and distributors.</span><span class="zh">LME 注册级别精炼铜，源自全球生产商，供应亚洲加工企业及分销商。</span></p>
+        <div class="tag"><span class="en">Core</span><span class="zh">核心品种</span></div>
+      </div>
+      <div class="com reveal">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 38 L18 18 L26 30 L32 22 L42 38 Z"/><circle cx="34" cy="12" r="3"/></svg>
+        <h3><span class="en">Copper Concentrate</span><span class="zh">铜精矿</span></h3>
+        <p><span class="en">Copper concentrates delivered to smelters, linking upstream mining supply with refining capacity.</span><span class="zh">向冶炼厂供应铜精矿，连接上游矿山与下游冶炼产能。</span></p>
+        <div class="tag"><span class="en">Core</span><span class="zh">核心品种</span></div>
+      </div>
+      <div class="com reveal">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 30 L14 20 H34 L42 30 Z"/><path d="M6 30 V36 H42 V30"/></svg>
+        <h3><span class="en">Tin &amp; Zinc</span><span class="zh">锡锭、锌锭</span></h3>
+        <p><span class="en">Refined tin and zinc ingots for the electronics, galvanising and alloy industries.</span><span class="zh">精炼锡锭与锌锭，服务电子、镀锌及合金行业。</span></p>
+        <div class="tag"><span class="en">Base Metals</span><span class="zh">基本金属</span></div>
+      </div>
+      <div class="com reveal">
+        <svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M24 6 C14 18 12 26 12 30 a12 12 0 0 0 24 0 C36 26 34 18 24 6 Z"/></svg>
+        <h3><span class="en">Natural Rubber</span><span class="zh">天然橡胶</span></h3>
+        <p><span class="en">Natural rubber from Southeast Asian origins for tyre and industrial manufacturers.</span><span class="zh">东南亚产地天然橡胶，供应轮胎及工业制造企业。</span></p>
+        <div class="tag"><span class="en">Agricultural</span><span class="zh">农产品</span></div>
+      </div>
+    </div>
+    <p class="note reveal"><span class="en">We continue to expand selectively into other non-ferrous metals, agricultural products, basic chemicals and coal.</span><span class="zh">我们正逐步拓展其他有色金属、农产品、基础化学品及煤炭等品种。</span></p>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section id="approach" class="dark">
+  <div class="wrap">
+    <div class="reveal" style="max-width:720px">
+      <div class="eyebrow"><span class="en">Our Approach</span><span class="zh">经营理念</span></div>
+      <h2><span class="en">Disciplined risk management at the core.</span><span class="zh">以稳健的风险管理为核心</span></h2>
+      <p><span class="en">Every transaction is structured to protect margin and deliver certainty to our counterparties.</span><span class="zh">每一笔交易都以锁定收益、保障履约为原则进行安排。</span></p>
+    </div>
+    <div class="pillars">
+      <div class="pillar reveal"><h3><span class="en">Back-to-Back Trading</span><span class="zh">以销定购</span></h3><p><span class="en">Purchases are matched against confirmed sales, with product, price and quantity locked with both counterparties at the same time.</span><span class="zh">采购与销售一一匹配，与上下游同步锁定品种、价格和数量，控制价格风险。</span></p></div>
+      <div class="pillar reveal"><h3><span class="en">No Open Currency Exposure</span><span class="zh">无汇率敞口</span></h3><p><span class="en">Purchases and sales are matched in the same currency, keeping each trade free from exchange-rate risk.</span><span class="zh">采购与销售币种保持一致，规避汇率风险。</span></p></div>
+      <div class="pillar reveal"><h3><span class="en">Counterparty Diligence</span><span class="zh">严格的客户准入</span></h3><p><span class="en">We work with established producers, trading houses and buyers, supported by rigorous KYC and credit review.</span><span class="zh">与成熟的生产商、贸易商及终端用户合作，执行严格的KYC与信用审查。</span></p></div>
+      <div class="pillar reveal"><h3><span class="en">Reliable Execution</span><span class="zh">可靠履约</span></h3><p><span class="en">Experienced operations ensure accurate documentation, timely delivery and smooth settlement on every trade.</span><span class="zh">专业的运营团队保障单据准确、交付及时、结算顺畅。</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="wrap team-box">
+    <div class="reveal">
+      <div class="eyebrow"><span class="en">Our Team</span><span class="zh">创始团队</span></div>
+      <h2><span class="en">Founded by former Cargill executives.</span><span class="zh">由前嘉吉（Cargill）高管创立</span></h2>
+      <div class="creds">
+        <div class="cred"><b>25+</b><span class="en">Years combined at Cargill</span><span class="zh">年嘉吉合计从业经验</span></div>
+        <div class="cred"><b><span class="en">Asia</span><span class="zh">亚洲</span></b><span class="en">Regional market leadership</span><span class="zh">区域市场管理经验</span></div>
+        <div class="cred"><b><span class="en">Global</span><span class="zh">全球</span></b><span class="en">Commodity market experience</span><span class="zh">大宗商品市场经验</span></div>
+        <div class="cred"><b><span class="en">Risk</span><span class="zh">风控</span></b><span class="en">Rigorous risk management discipline</span><span class="zh">严谨的风险管理体系</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="lead">
+        <span class="en">Finavest's founding team brings more than 25 years of combined experience at Cargill, one of the world's largest commodity and agricultural groups.</span>
+        <span class="zh">Finavest 创始团队在全球领先的大宗商品及农业集团嘉吉（Cargill）拥有合计超过25年的从业经验。</span>
+      </p>
+      <p>
+        <span class="en">During their careers, the founders held senior leadership roles across Asia, overseeing regional operations in China and the wider Asia-Pacific, building long-term relationships with market participants, and managing risk across global commodity markets.</span>
+        <span class="zh">创始人曾在嘉吉担任亚洲区高级管理职务，负责中国及亚太地区的区域运营，与市场各方建立了长期稳定的合作关系，并在全球大宗商品市场积累了丰富的风险管理经验。</span>
+      </p>
+      <p>
+        <span class="en">In 2024, they founded Finavest to bring this experience and discipline to a focused, agile trading platform serving customers across Asia.</span>
+        <span class="zh">2024年，创始团队成立 Finavest，将多年积累的行业经验与专业体系带入一个专注、灵活的贸易平台，服务亚洲客户。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section id="partners" class="soft">
+  <div class="wrap">
+    <div class="reveal" style="max-width:720px">
+      <div class="eyebrow"><span class="en">Partners</span><span class="zh">合作伙伴</span></div>
+      <h2><span class="en">Working with global industry leaders.</span><span class="zh">与全球领先企业携手合作</span></h2>
+    </div>
+    <div class="pstate reveal">
+      <p>
+        <span class="en">Finavest works alongside some of the world's largest commodity trading houses, including Trafigura, as well as established producers, international traders and industrial buyers. These long-term relationships give us dependable access to supply and a broad customer base across Singapore, Hong Kong and mainland China.</span>
+        <span class="zh">Finavest 与托克（Trafigura）等全球大型大宗商品贸易企业建立了合作关系，同时与众多成熟的生产商、国际贸易商及工业用户保持长期合作。稳定的合作网络为我们提供了可靠的货源，以及覆盖新加坡、香港及中国内地的广泛客户基础。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section id="locations">
+  <div class="wrap">
+    <div class="reveal" style="max-width:720px">
+      <div class="eyebrow"><span class="en">Global Presence</span><span class="zh">全球布局</span></div>
+      <h2><span class="en">Positioned at the centre of Asian commodity flows.</span><span class="zh">立足亚洲大宗商品流通枢纽</span></h2>
+    </div>
+    <div class="locs">
+      <div class="loc reveal"><div class="role"><span class="en">Headquarters</span><span class="zh">总部</span></div><h3><span class="en">Singapore</span><span class="zh">新加坡</span></h3><p><span class="en">Our global trading hub, managing international sourcing and counterparty relationships.</span><span class="zh">全球贸易中心，负责国际采购及客户关系管理。</span></p></div>
+      <div class="loc reveal"><div class="role"><span class="en">Representative Office</span><span class="zh">办事处</span></div><h3><span class="en">Shanghai</span><span class="zh">上海</span></h3><p><span class="en">Serving customers across mainland China, the world's largest consumer of base metals.</span><span class="zh">服务中国内地客户——全球最大的基本金属消费市场。</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="wrap contact-box">
+    <div class="reveal">
+      <div class="eyebrow"><span class="en">Contact Us</span><span class="zh">联系我们</span></div>
+      <h2><span class="en">Let's talk.</span><span class="zh">期待与您合作</span></h2>
+      <p><span class="en">For trading enquiries, partnership opportunities or general information, please get in touch.</span><span class="zh">如有贸易咨询、合作意向或其他问题，欢迎与我们联系。</span></p>
+      <a class="mail" href="mailto:zhijian_wang@finavest.sg">zhijian_wang@finavest.sg</a><br>
+      <a class="btn" href="mailto:zhijian_wang@finavest.sg?subject=Enquiry%20via%20Finavest%20website"><span class="en">Send an Email</span><span class="zh">发送邮件</span></a>
+    </div>
+    <div class="cinfo reveal">
+      <dl>
+        <dt><span class="en">Company</span><span class="zh">公司名称</span></dt><dd>Finavest Pte. Ltd.</dd>
+        <dt><span class="en">Headquarters</span><span class="zh">总部</span></dt><dd><span class="en">Singapore</span><span class="zh">新加坡</span></dd>
+        <dt><span class="en">Office</span><span class="zh">办事处</span></dt><dd><span class="en">Shanghai, China</span><span class="zh">中国上海</span></dd>
+        <dt><span class="en">Email</span><span class="zh">邮箱</span></dt><dd><a href="mailto:zhijian_wang@finavest.sg" style="color:var(--blue)">zhijian_wang@finavest.sg</a></dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div><div class="logo">Finavest</div><p style="color:rgba(255,255,255,.5);margin-top:10px;max-width:320px"><span class="en">Global commodity trading. Headquartered in Singapore.</span><span class="zh">全球大宗商品贸易 &middot; 总部位于新加坡</span></p></div>
+      <div class="fmenu">
+        <a href="#about"><span class="en">About Us</span><span class="zh">关于我们</span></a>
+        <a href="#business"><span class="en">What We Do</span><span class="zh">业务介绍</span></a>
+        <a href="#commodities"><span class="en">Commodities</span><span class="zh">经营品种</span></a>
+        <a href="#team"><span class="en">Our Team</span><span class="zh">创始团队</span></a>
+        <a href="#partners"><span class="en">Partners</span><span class="zh">合作伙伴</span></a>
+        <a href="#contact"><span class="en">Contact Us</span><span class="zh">联系我们</span></a>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>&copy; <span class="yr">2026</span> Finavest Pte. Ltd. <span class="en">All rights reserved.</span><span class="zh">版权所有。</span></span>
+      <span><span class="en">Singapore &middot; Shanghai</span><span class="zh">新加坡 &middot; 上海</span></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const root=document.documentElement;
+  const titles={en:'Finavest | Global Commodity Trading',zh:'Finavest | 全球大宗商品贸易'};
+  function setLang(l){
+    root.setAttribute('data-lang',l);
+    root.setAttribute('lang',l==='zh'?'zh-CN':'en');
+    document.title=titles[l];
+    document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.set===l));
+  }
+  const init=location.hash==='#zh'?'zh':'en';
+  setLang(init);
+  document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.set)));
+
+  const hdr=document.getElementById('hdr');
+  const onScroll=()=>hdr.classList.toggle('scrolled',window.scrollY>40);
+  window.addEventListener('scroll',onScroll);onScroll();
+  const menu=document.getElementById('menu');
+  document.getElementById('burger').addEventListener('click',()=>{menu.classList.toggle('open');hdr.classList.add('scrolled')});
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+  document.querySelectorAll('.yr').forEach(e=>e.textContent=new Date().getFullYear());
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
 </body>
 </html>
